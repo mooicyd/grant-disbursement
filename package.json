@@ -1,0 +1,31 @@
+{
+  "name": "grant-disbursement",
+  "version": "1.0.0",
+  "description": "Grant Disbursement",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mooicyd/grant-disbursement.git"
+  },
+  "author": "Dexter Mooi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mooicyd/grant-disbursement/issues"
+  },
+  "homepage": "https://github.com/mooicyd/grant-disbursement#readme",
+  "dependencies": {
+    "dotenv": "10.0.0",
+    "fastify": "3.22.0",
+    "nodemon": "2.0.13"
+  },
+  "devDependencies": {
+    "eslint": "7.32.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-plugin-import": "2.24.2",
+    "prettier": "2.4.1"
+  }
+}
