@@ -14,6 +14,8 @@ afterAll(async () => {
   await db.teardown()
 })
 
+const housingTypeErrorMsg = e => e.errors.housingType.message
+
 it.each`
   housingType
   ${'HDB'}
@@ -25,4 +27,26 @@ it.each`
   const result = await household.save()
 
   expect(result.housingType).toEqual(housingType)
+})
+
+it('missing housingType', async () => {
+  const household = new Household()
+
+  try {
+    await household.save()
+  } catch (e) {
+    expect(housingTypeErrorMsg(e)).toEqual('housingType is required')
+  }
+})
+
+it('invalid housingType', async () => {
+  const household = new Household({ housingType: 'notexists' })
+
+  try {
+    await household.save()
+  } catch (e) {
+    expect(housingTypeErrorMsg(e)).toEqual(
+      'housingType must be one of the following: HDB, Condominium, Landed'
+    )
+  }
 })
