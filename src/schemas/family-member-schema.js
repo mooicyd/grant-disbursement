@@ -26,7 +26,7 @@ const familyMemberSchema = new Schema({
       message: `occupationType must be one of the following: ${occupationTypes.join(', ')}`
     }
   },
-  annualIncome: { type: Number, min: 0, default: 0 },
+  annualIncome: { type: Number, min: [0, 'annualIncome cannot be less than 0'], default: 0 },
   dob: { type: Date, required: [true, 'dob is required'] }
 })
 

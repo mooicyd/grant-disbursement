@@ -88,3 +88,16 @@ it('invalid occupation type', async () => {
     )
   }
 })
+
+it('invalid annualIncome', async () => {
+  expect.assertions(1)
+  const familyMember = mockFamilyMember()
+  familyMember.annualIncome = -1
+  const newFamilyMember = new FamilyMember(familyMember)
+
+  try {
+    await newFamilyMember.save()
+  } catch (e) {
+    expect(getFieldErrorMessage(e, 'annualIncome')).toEqual('annualIncome cannot be less than 0')
+  }
+})
