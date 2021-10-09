@@ -15,10 +15,12 @@ afterAll(async () => {
 })
 
 describe('add household', () => {
+  const mockRequest = housingType => ({ body: { housingType } })
+
   it('valid', async () => {
     const housingType = 'HDB'
 
-    const newHousehold = await householdController.addHousehold({ body: { housingType } })
+    const newHousehold = await householdController.addHousehold(mockRequest(housingType))
 
     expect(newHousehold.housingType).toEqual(housingType)
   })
@@ -26,7 +28,7 @@ describe('add household', () => {
   it('invalid', async () => {
     const housingType = 'ABC'
     try {
-      await householdController.addHousehold({ body: { housingType } })
+      await householdController.addHousehold(mockRequest(housingType))
     } catch (e) {
       expect(e.errors.housingType.message).toEqual(
         'housingType must be one of the following: HDB, Condominium, Landed'
