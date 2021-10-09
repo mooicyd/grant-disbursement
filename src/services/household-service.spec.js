@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const db = require('../test/db')
-const householdController = require('./household-controller')
+const householdService = require('./household-service')
 
 beforeAll(async () => {
   await db.setup()
@@ -20,7 +20,7 @@ describe('add household', () => {
   it('valid', async () => {
     const housingType = 'HDB'
 
-    const newHousehold = await householdController.addHousehold(mockRequest(housingType))
+    const newHousehold = await householdService.addHousehold(mockRequest(housingType))
 
     expect(newHousehold.housingType).toEqual(housingType)
   })
@@ -30,7 +30,7 @@ describe('add household', () => {
     const housingType = 'ABC'
 
     try {
-      await householdController.addHousehold(mockRequest(housingType))
+      await householdService.addHousehold(mockRequest(housingType))
     } catch (e) {
       expect(e.errors.housingType.message).toEqual(
         'housingType must be one of the following: HDB, Condominium, Landed'
