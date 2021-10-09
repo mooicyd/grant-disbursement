@@ -30,6 +30,7 @@ it.each`
 })
 
 it('missing housingType', async () => {
+  expect.assertions(1)
   const household = new Household()
 
   try {
@@ -40,6 +41,7 @@ it('missing housingType', async () => {
 })
 
 it('invalid housingType', async () => {
+  expect.assertions(1)
   const household = new Household({ housingType: 'notexists' })
 
   try {

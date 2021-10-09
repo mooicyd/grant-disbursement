@@ -26,7 +26,9 @@ describe('add household', () => {
   })
 
   it('invalid', async () => {
+    expect.assertions(1)
     const housingType = 'ABC'
+
     try {
       await householdController.addHousehold(mockRequest(housingType))
     } catch (e) {
