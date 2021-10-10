@@ -14,6 +14,7 @@ afterAll(async () => {
 })
 
 const mockRequest = (body, id) => ({ params: { id }, body })
+const fakeObjectId = '6162368212490dc38a9fe196'
 
 describe('add household', () => {
   it('valid', async () => {
@@ -37,7 +38,7 @@ describe('get household by id', () => {
 
   it('household not found', async () => {
     const household = await grantsController.getHouseholdById({
-      params: { id: '6162368212490dc38a9fe196' }
+      params: { id: fakeObjectId }
     })
 
     expect(household).toBeFalsy()
@@ -76,9 +77,7 @@ describe('add family member to household', () => {
   it('household not found', async () => {
     expect.assertions(1)
     try {
-      await grantsController.addFamilyMember(
-        mockRequest(expect.anything(), '6162368212490dc38a9fe196')
-      )
+      await grantsController.addFamilyMember(mockRequest(expect.anything(), fakeObjectId))
     } catch (e) {
       expect(e.message).toBe('Household not found')
     }
