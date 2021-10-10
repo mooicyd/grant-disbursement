@@ -20,7 +20,7 @@ describe('add household', () => {
 
     const newHousehold = await householdService.addHousehold({ housingType })
 
-    expect(newHousehold.housingType).toEqual(housingType)
+    expect(newHousehold).toBeTruthy()
   })
 
   it('invalid', async () => {
@@ -34,5 +34,25 @@ describe('add household', () => {
         'housingType must be one of the following: HDB, Condominium, Landed'
       )
     }
+  })
+})
+
+describe('find household', () => {
+  let newHousehold
+
+  beforeEach(async () => {
+    newHousehold = await householdService.addHousehold({ housingType: 'HDB' })
+  })
+
+  it('household exists', async () => {
+    const result = await householdService.getHouseholdById(newHousehold._id.toString())
+
+    expect(result.toJSON()).toEqual(newHousehold.toJSON())
+  })
+
+  it('household not exists', async () => {
+    const result = await householdService.getHouseholdById('6162368212490dc38a9fe196')
+
+    expect(result).toBeFalsy()
   })
 })
