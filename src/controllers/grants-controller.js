@@ -10,4 +10,6 @@ exports.addFamilyMember = async request => {
     await householdService.updateHousehold(household.id, newFamilyMember.id)
     return newFamilyMember
   }
+
+  throw Error('Household not found')
 }

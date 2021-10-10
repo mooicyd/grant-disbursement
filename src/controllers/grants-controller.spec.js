@@ -72,4 +72,15 @@ describe('add family member to household', () => {
 
     expect(result).toMatchObject(expected)
   })
+
+  it('household not found', async () => {
+    expect.assertions(1)
+    try {
+      await grantsController.addFamilyMember(
+        mockRequest(expect.anything(), '6162368212490dc38a9fe196')
+      )
+    } catch (e) {
+      expect(e.message).toBe('Household not found')
+    }
+  })
 })
