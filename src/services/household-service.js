@@ -6,3 +6,9 @@ exports.addHousehold = async householdInfo => {
 }
 
 exports.getHouseholdById = async householdId => Household.findById(householdId)
+
+exports.updateHousehold = async (householdId, familyMemberId) => {
+  const household = await Household.findById(householdId)
+  household.familyMembers.push(familyMemberId)
+  return household.save()
+}
