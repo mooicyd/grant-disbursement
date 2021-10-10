@@ -1,5 +1,4 @@
-const { Schema } = require('mongoose')
-const familyMemberSchema = require('./family-member-schema')
+const { Schema, Types } = require('mongoose')
 
 const housingTypes = ['HDB', 'Condominium', 'Landed']
 
@@ -12,7 +11,7 @@ const householdSchema = new Schema({
     },
     required: [true, 'housingType is required']
   },
-  familyMembers: [familyMemberSchema]
+  familyMembers: [{ type: Types.ObjectId, ref: 'familyMember' }]
 })
 
 module.exports = householdSchema
