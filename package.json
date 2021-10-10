@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "serve": "node src/index.js",
+    "dev": "nodemon src/index.js",
     "test:dev": "jest --watch",
     "test:coverage": "jest --collectCoverage"
   },

@@ -1,11 +1,11 @@
 require('dotenv').config()
-const fastify = require('fastify')({ logger: true })
+const server = require('./app')({ logger: true })
 
 const start = async () => {
   try {
-    await fastify.listen(3001)
+    await server.listen(3001)
   } catch (e) {
-    fastify.log.error(e)
+    server.log.error(e)
     process.exit(1)
   }
 }
