@@ -26,6 +26,7 @@ it.each`
   const result = await household.save()
 
   expect(result.housingType).toEqual(housingType)
+  expect(result.familyMembers).toEqual([])
 })
 
 it('missing housingType', async () => {
