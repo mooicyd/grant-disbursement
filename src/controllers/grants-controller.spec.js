@@ -31,15 +31,17 @@ describe('get household by id', () => {
     const housingType = 'HDB'
 
     const newHousehold = await grantsController.addHousehold(mockRequest({ housingType }))
-    const household = await grantsController.getHouseholdById({ params: { id: newHousehold.id } })
+    const household = await grantsController.getHouseholdById(
+      mockRequest(expect.anything(), newHousehold.id)
+    )
 
     expect(household).toBeTruthy()
   })
 
   it('household not found', async () => {
-    const household = await grantsController.getHouseholdById({
-      params: { id: fakeObjectId }
-    })
+    const household = await grantsController.getHouseholdById(
+      mockRequest(expect.anything(), fakeObjectId)
+    )
 
     expect(household).toBeFalsy()
   })
