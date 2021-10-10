@@ -7,10 +7,10 @@ exports.getHouseholdById = async request => householdService.getHouseholdById(re
 
 exports.listHouseholds = async () => householdService.listHouseholds()
 
-exports.addFamilyMember = async request => {
+exports.addFamilyMemberToHousehold = async request => {
   const household = await householdService.getHouseholdById(request.params.id)
   if (household) {
-    const newFamilyMember = await familyMemberService.addFamilyMember(request.body)
+    const newFamilyMember = await familyMemberService.addFamilyMember(request.body, household.id)
     await householdService.updateHousehold(household.id, newFamilyMember.id)
     return newFamilyMember
   }

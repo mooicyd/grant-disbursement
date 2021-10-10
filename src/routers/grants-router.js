@@ -13,7 +13,7 @@ module.exports = function handler(app, opts, done) {
   app.get('/households/:id', grantsController.getHouseholdById)
 
   app.post('/households', grantsController.addHousehold)
-  app.post('/households/:id/members', routeOpts, grantsController.addFamilyMember)
+  app.post('/households/:id/members', routeOpts, grantsController.addFamilyMemberToHousehold)
 
   done()
 }

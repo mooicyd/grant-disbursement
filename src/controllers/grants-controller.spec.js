@@ -53,7 +53,7 @@ describe('add family member to household', () => {
     household = await grantsController.addHousehold(mockRequest({ housingType: 'HDB' }))
   })
 
-  it('valid', async () => {
+  it('save reference id', async () => {
     const familyMemberInfo = {
       name: 'Dex',
       gender: 'Male',
@@ -63,23 +63,20 @@ describe('add family member to household', () => {
       annualIncome: 1,
       dob: '1990-01-01'
     }
-    const expected = {
-      id: expect.any(String),
-      ...familyMemberInfo,
-      dob: new Date(familyMemberInfo.dob)
-    }
 
-    const result = await grantsController.addFamilyMember(
+    const result = await grantsController.addFamilyMemberToHousehold(
       mockRequest(familyMemberInfo, household.id)
     )
 
-    expect(result).toMatchObject(expected)
+    expect(result.householdId.toString()).toEqual(household.id)
   })
 
   it('household not found', async () => {
     expect.assertions(1)
     try {
-      await grantsController.addFamilyMember(mockRequest(expect.anything(), fakeObjectId))
+      await grantsController.addFamilyMemberToHousehold(
+        mockRequest(expect.anything(), fakeObjectId)
+      )
     } catch (e) {
       expect(e.message).toBe('Household not found')
     }
