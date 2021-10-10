@@ -14,6 +14,19 @@ afterAll(async () => {
   await db.teardown()
 })
 
+const addFamilyMember = async () => {
+  const newFamilyMember = new FamilyMember({
+    name: 'Dex',
+    gender: 'Male',
+    maritalStatus: 'Single',
+    spouse: '',
+    occupationType: 'Employed',
+    annualIncome: 1,
+    dob: '1990-01-01'
+  })
+  return newFamilyMember.save()
+}
+
 describe('add household', () => {
   it('valid', async () => {
     const housingType = 'HDB'
@@ -63,21 +76,40 @@ describe('update household', () => {
 
   beforeEach(async () => {
     household = await householdService.addHousehold({ housingType: 'HDB' })
-    newFamilyMember = new FamilyMember({
-      name: 'Dex',
-      gender: 'Male',
-      maritalStatus: 'Single',
-      spouse: '',
-      occupationType: 'Employed',
-      annualIncome: 1,
-      dob: '1990-01-01'
-    })
-    await newFamilyMember.save()
+    newFamilyMember = await addFamilyMember()
   })
 
   it('insert family member id to familyMembers', async () => {
     const result = await householdService.updateHousehold(household.id, newFamilyMember.id)
 
     expect(result.familyMembers[0].toString()).toEqual(newFamilyMember.id)
+  })
+})
+
+describe('list households', () => {
+  it('no households', async () => {
+    const result = await householdService.listHouseholds()
+
+    expect(result).toEqual([])
+  })
+
+  it('with empty household', async () => {
+    await householdService.addHousehold({ housingType: 'HDB' })
+
+    const result = await householdService.listHouseholds()
+
+    expect(result.length).toEqual(1)
+    expect(result[0].familyMembers).toEqual([])
+  })
+
+  it('household with people', async () => {
+    const newHousehold = await householdService.addHousehold({ housingType: 'HDB' })
+    const newFamilyMember = await addFamilyMember()
+    await householdService.updateHousehold(newHousehold.id, newFamilyMember.id)
+
+    const result = await householdService.listHouseholds(newHousehold.id)
+
+    expect(result[0].familyMembers.length).toEqual(1)
+    expect(result[0].familyMembers[0].toJSON()).toEqual(newFamilyMember.toJSON())
   })
 })

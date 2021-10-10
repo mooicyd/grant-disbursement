@@ -12,3 +12,5 @@ exports.updateHousehold = async (householdId, familyMemberId) => {
   household.familyMembers.push(familyMemberId)
   return household.save()
 }
+
+exports.listHouseholds = async () => Household.find().populate('familyMembers')
