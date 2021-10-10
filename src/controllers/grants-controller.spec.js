@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 const db = require('../test/db')
 const grantsController = require('./grants-controller')
 
@@ -21,6 +20,6 @@ describe('add household', () => {
 
     const result = await grantsController.addHousehold(mockRequest(housingType))
 
-    expect(result).toEqual({ _id: result._id, housingType, familyMembers: [] })
+    expect(result).toMatchObject({ id: result.id, familyMembers: [], housingType })
   })
 })
