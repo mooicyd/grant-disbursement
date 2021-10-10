@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 const db = require('../test/db')
 const familyMemberService = require('./family-member-service')
 
