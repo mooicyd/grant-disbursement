@@ -85,3 +85,8 @@ describe('add family member to household', () => {
     }
   })
 })
+
+it('list households', async () => {
+  const households = await grantsController.listHouseholds()
+  expect(households).toEqual([])
+})
