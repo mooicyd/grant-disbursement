@@ -1,6 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 const FamilyMember = require('../models/family-member-model')
+const utility = require('../utils/utility')
 
 exports.addFamilyMember = async (familyMemberData, householdId) => {
   const newFamilyMember = new FamilyMember({ ...familyMemberData, householdId })
@@ -12,7 +13,7 @@ exports.queryFamily = async (query, householdIds) => {
   for (const householdId of householdIds) {
     const promises = []
 
-    if (query.youngerThan && !Number.isNaN(query.youngerThan)) {
+    if (utility.isNumberString(query.youngerThan)) {
       const date = new Date()
       date.setFullYear(date.getFullYear() - query.youngerThan)
       promises.push(
@@ -22,7 +23,7 @@ exports.queryFamily = async (query, householdIds) => {
       )
     }
 
-    if (query.totalIncome && !Number.isNaN(query.totalIncome)) {
+    if (utility.isNumberString(query.totalIncome)) {
       promises.push(
         FamilyMember.aggregate()
           .match({ householdId })
