@@ -137,3 +137,35 @@ describe('query households', () => {
     expect(householdIds.length).toEqual(0)
   })
 })
+
+describe('get households by ids', () => {
+  beforeEach(async () => {
+    await Household.insertMany([
+      { housingType: 'HDB' },
+      { housingType: 'Condominium' },
+      { housingType: 'HDB' },
+      { housingType: 'Landed' },
+      { housingType: 'Condominium' },
+      { housingType: 'HDB' }
+    ])
+  })
+  it('valid ids', async () => {
+    const householdIds = await householdService.queryHouseholds({ housingType: 'HDB' })
+
+    const result = await householdService.getHouseholdsByIds(householdIds)
+
+    expect(result.length).toEqual(3)
+    expect(result[0]._id).toEqual(householdIds[0])
+    expect(result[1]._id).toEqual(householdIds[1])
+    expect(result[2]._id).toEqual(householdIds[2])
+  })
+
+  it('ignore invalid ids', async () => {
+    const householdIds = await householdService.queryHouseholds({ housingType: 'HDB' })
+    householdIds.push(mongoose.Types.ObjectId('6162368212490dc38a9fe196'))
+
+    const result = await householdService.getHouseholdsByIds(householdIds)
+
+    expect(result.length).toEqual(3)
+  })
+})

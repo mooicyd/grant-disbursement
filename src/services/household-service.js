@@ -28,3 +28,14 @@ exports.queryHouseholds = async query => {
 
   return results.map(result => result._id)
 }
+
+exports.getHouseholdsByIds = async householdIds =>
+  Household.aggregate()
+    .match({ _id: { $in: householdIds } })
+    .lookup({
+      from: 'familymembers',
+      localField: 'familyMembers',
+      foreignField: '_id',
+      as: 'familyMembers'
+    })
+    .exec()
