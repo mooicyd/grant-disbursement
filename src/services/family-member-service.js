@@ -11,6 +11,17 @@ exports.queryFamily = async (query, householdIds) => {
   const householdSet = new Set(householdIds)
   for (const householdId of householdIds) {
     const promises = []
+
+    if (query.youngerThan && !Number.isNaN(query.youngerThan)) {
+      const date = new Date()
+      date.setFullYear(date.getFullYear() - query.youngerThan)
+      promises.push(
+        FamilyMember.aggregate()
+          .match({ householdId, dob: { $gt: date } })
+          .exec()
+      )
+    }
+
     if (query.totalIncome && !Number.isNaN(query.totalIncome)) {
       promises.push(
         FamilyMember.aggregate()
