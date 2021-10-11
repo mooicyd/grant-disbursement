@@ -136,6 +136,14 @@ describe('query households', () => {
     const householdIds = await householdService.queryHouseholds({ familySize: 2 })
     expect(householdIds.length).toEqual(0)
   })
+
+  it('match all conditions', async () => {
+    const householdIds = await householdService.queryHouseholds({
+      housingType: 'Landed',
+      familySize: 0
+    })
+    expect(householdIds.length).toEqual(1)
+  })
 })
 
 describe('get households by ids', () => {
