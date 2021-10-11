@@ -17,3 +17,9 @@ exports.addFamilyMemberToHousehold = async request => {
 
   throw Error('Household not found')
 }
+
+exports.searchHouseholds = async request => {
+  const households = await householdService.queryHouseholds(request.query)
+
+  return householdService.getHouseholdsByIds(households)
+}
