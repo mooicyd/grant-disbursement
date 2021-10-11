@@ -117,19 +117,19 @@ describe('query households', () => {
   beforeEach(async () => {
     await setupHouseholds()
   })
-  it('no query returns all household ids', async () => {
+  it('no query', async () => {
     const householdIds = await householdService.queryHouseholds({})
 
     expect(householdIds.length).toEqual(6)
     expect(householdIds[0]).toBeInstanceOf(mongoose.Types.ObjectId)
   })
 
-  it('query housing type returns household ids that match', async () => {
+  it('match housing type', async () => {
     const householdIds = await householdService.queryHouseholds({ housingType: 'HDB' })
     expect(householdIds.length).toEqual(3)
   })
 
-  it('query family size returns household ids that match size', async () => {
+  it('match family', async () => {
     const householdIds = await householdService.queryHouseholds({ familySize: 2 })
     expect(householdIds.length).toEqual(0)
   })
