@@ -1,5 +1,5 @@
 const Household = require('../models/household-model')
-const utility = require('../utils/utility')
+const { isNumberString } = require('../utils/utility')
 
 exports.addHousehold = async householdInfo => {
   const newHousehold = new Household(householdInfo)
@@ -21,7 +21,7 @@ exports.queryHouseholds = async query => {
   if (query.housingType) {
     mongoQuery.match({ housingType: query.housingType })
   }
-  if (utility.isNumberString(query.familySize)) {
+  if (isNumberString(query.familySize)) {
     mongoQuery.match({ familyMembers: { $size: Number(query.familySize) } })
   }
 
