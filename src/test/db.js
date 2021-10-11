@@ -2,29 +2,32 @@
 const mongoose = require('mongoose')
 const { MongoMemoryServer } = require('mongodb-memory-server')
 
-let mongoServer
-let uri
 const mongooseOpts = {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }
+class TestDb {
+  constructor() {
+    this.mongoServer = null
+    this.mongoose = mongoose
+  }
 
-const setup = async () => {
-  mongoServer = await MongoMemoryServer.create()
-  uri = mongoServer.getUri()
-  await mongoose.connect(uri, mongooseOpts)
+  async setup() {
+    this.mongoServer = await MongoMemoryServer.create()
+    await this.mongoose.connect(this.mongoServer.getUri(), mongooseOpts)
+  }
+
+  async reset() {
+    Object.values(this.mongoose.connection.collections).forEach(async collection => {
+      await collection.deleteMany()
+    })
+  }
+
+  async teardown() {
+    await this.mongoose.connection.dropDatabase()
+    await this.mongoose.connection.close()
+    await this.mongoServer.stop()
+  }
 }
 
-const reset = async () => {
-  Object.values(mongoose.connection.collections).forEach(async collection => {
-    await collection.deleteMany()
-  })
-}
-
-const teardown = async () => {
-  await mongoose.connection.dropDatabase()
-  await mongoose.connection.close()
-  await mongoServer.stop()
-}
-
-module.exports = { setup, reset, teardown }
+module.exports = TestDb

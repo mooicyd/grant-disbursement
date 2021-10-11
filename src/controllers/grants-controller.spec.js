@@ -1,16 +1,18 @@
-const db = require('../test/db')
+const TestDb = require('../test/db')
 const grantsController = require('./grants-controller')
 
+const testDb = new TestDb()
+
 beforeAll(async () => {
-  await db.setup()
+  await testDb.setup()
 })
 
 beforeEach(async () => {
-  await db.reset()
+  await testDb.reset()
 })
 
 afterAll(async () => {
-  await db.teardown()
+  await testDb.teardown()
 })
 
 const mockRequest = (body, id) => ({ params: { id }, body })
