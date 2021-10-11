@@ -1,6 +1,8 @@
+const mongoose = require('mongoose')
 const TestDb = require('../test/db')
 const householdService = require('./household-service')
 const FamilyMember = require('../models/family-member-model')
+const Household = require('../models/household-model')
 
 const testDb = new TestDb()
 
@@ -104,5 +106,34 @@ describe('list households', () => {
 
     expect(result[0].familyMembers.length).toEqual(1)
     expect(result[0].familyMembers[0].toJSON()).toEqual(newFamilyMember.toJSON())
+  })
+})
+
+describe('query households', () => {
+  beforeEach(async () => {
+    await Household.insertMany([
+      { housingType: 'HDB' },
+      { housingType: 'Condominium' },
+      { housingType: 'HDB' },
+      { housingType: 'Landed' },
+      { housingType: 'Condominium' },
+      { housingType: 'HDB' }
+    ])
+  })
+  it('no query returns all household ids', async () => {
+    const householdIds = await householdService.queryHouseholds({})
+
+    expect(householdIds.length).toEqual(6)
+    expect(householdIds[0]).toBeInstanceOf(mongoose.Types.ObjectId)
+  })
+
+  it('query housing type returns household ids that match', async () => {
+    const householdIds = await householdService.queryHouseholds({ housingType: 'HDB' })
+    expect(householdIds.length).toEqual(3)
+  })
+
+  it('query family size returns household ids that match size', async () => {
+    const householdIds = await householdService.queryHouseholds({ familySize: 2 })
+    expect(householdIds.length).toEqual(0)
   })
 })

@@ -13,3 +13,18 @@ exports.updateHousehold = async (householdId, familyMemberId) => {
 }
 
 exports.listHouseholds = async () => Household.find().populate('familyMembers').exec()
+
+exports.queryHouseholds = async query => {
+  const mongoQuery = Household.aggregate()
+
+  if (query.housingType) {
+    mongoQuery.match({ housingType: query.housingType })
+  }
+  if (query.familySize && !Number.isNaN(query.familySize)) {
+    mongoQuery.match({ familyMembers: { $size: Number(query.familySize) } })
+  }
+
+  const results = await mongoQuery.project({ _id: 1 }).exec()
+
+  return results.map(result => result._id)
+}
