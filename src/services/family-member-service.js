@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 const FamilyMember = require('../models/family-member-model')
-const utility = require('../utils/utility')
+const { subtractYearsFromToday, isNumberString } = require('../utils/utility')
 
 exports.addFamilyMember = async (familyMemberData, householdId) => {
   const newFamilyMember = new FamilyMember({ ...familyMemberData, householdId })
@@ -13,29 +13,23 @@ exports.queryFamily = async (query, householdIds) => {
   for (const householdId of householdIds) {
     const promises = []
 
-    if (utility.isNumberString(query.youngerThan)) {
-      const date = new Date()
-      date.setFullYear(date.getFullYear() - query.youngerThan)
-      date.setUTCHours(0, 0, 0, 0)
+    if (isNumberString(query.youngerThan)) {
       promises.push(
         FamilyMember.aggregate()
-          .match({ householdId, dob: { $gt: date } })
+          .match({ householdId, dob: { $gt: subtractYearsFromToday(query.youngerThan) } })
           .exec()
       )
     }
 
-    if (utility.isNumberString(query.olderThan)) {
-      const date = new Date()
-      date.setFullYear(date.getFullYear() - query.olderThan)
-      date.setUTCHours(0, 0, 0, 0)
+    if (isNumberString(query.olderThan)) {
       promises.push(
         FamilyMember.aggregate()
-          .match({ householdId, dob: { $lt: date } })
+          .match({ householdId, dob: { $lt: subtractYearsFromToday(query.olderThan) } })
           .exec()
       )
     }
 
-    if (utility.isNumberString(query.totalIncome)) {
+    if (isNumberString(query.totalIncome)) {
       promises.push(
         FamilyMember.aggregate()
           .match({ householdId })
