@@ -19,7 +19,8 @@ exports.addFamilyMemberToHousehold = async request => {
 }
 
 exports.searchHouseholds = async request => {
-  const households = await householdService.queryHouseholds(request.query)
+  const matchingHouseholds = await householdService.queryHouseholds(request.query)
+  const householdIds = await familyMemberService.queryFamily(request.query, matchingHouseholds)
 
-  return householdService.getHouseholdsByIds(households)
+  return householdService.getHouseholdsByIds(householdIds)
 }
