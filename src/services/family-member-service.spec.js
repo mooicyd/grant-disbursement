@@ -1,4 +1,5 @@
 const TestDb = require('../test/db')
+const mocks = require('../test/mocks')
 const familyMemberService = require('./family-member-service')
 const Household = require('../models/household-model')
 
@@ -17,20 +18,10 @@ afterAll(async () => {
 })
 
 describe('add family member', () => {
-  const mockFamilyMember = () => ({
-    name: 'Dex',
-    gender: 'Male',
-    maritalStatus: 'Single',
-    spouse: '',
-    occupationType: 'Employed',
-    annualIncome: 1,
-    dob: '1990-01-01'
-  })
-
   it('valid', async () => {
     const household = await new Household({ housingType: 'HDB' }).save()
     const newFamilyMember = await familyMemberService.addFamilyMember(
-      mockFamilyMember(),
+      mocks.mockFamilyMemberData(),
       household.id
     )
 
@@ -39,7 +30,7 @@ describe('add family member', () => {
 
   it('invalid', async () => {
     expect.assertions(1)
-    const familyMember = mockFamilyMember()
+    const familyMember = mocks.mockFamilyMemberData()
     familyMember.gender = ''
 
     try {

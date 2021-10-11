@@ -1,4 +1,5 @@
 const TestDb = require('../test/db')
+const mocks = require('../test/mocks')
 const grantsController = require('./grants-controller')
 
 const testDb = new TestDb()
@@ -56,18 +57,8 @@ describe('add family member to household', () => {
   })
 
   it('save reference id', async () => {
-    const familyMemberInfo = {
-      name: 'Dex',
-      gender: 'Male',
-      maritalStatus: 'Single',
-      spouse: '',
-      occupationType: 'Employed',
-      annualIncome: 1,
-      dob: '1990-01-01'
-    }
-
     const result = await grantsController.addFamilyMemberToHousehold(
-      mockRequest(familyMemberInfo, household.id)
+      mockRequest(mocks.mockFamilyMemberData(), household.id)
     )
 
     expect(result.householdId.toString()).toEqual(household.id)

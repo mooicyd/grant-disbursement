@@ -1,4 +1,5 @@
 const TestDb = require('../test/db')
+const mocks = require('../test/mocks')
 const FamilyMember = require('./family-member-model')
 
 const testDb = new TestDb()
@@ -15,20 +16,10 @@ afterAll(async () => {
   await testDb.teardown()
 })
 
-const mockFamilyMember = () => ({
-  name: 'Dex',
-  gender: 'Male',
-  maritalStatus: 'Single',
-  spouse: '',
-  occupationType: 'Employed',
-  annualIncome: 1,
-  dob: '1990-01-01'
-})
-
 const getFieldErrorMessage = (e, field) => e.errors[field].message
 
 it('valid family member', async () => {
-  const familyMember = mockFamilyMember()
+  const familyMember = mocks.mockFamilyMemberData()
   const newFamilyMember = new FamilyMember(familyMember)
 
   const result = await newFamilyMember.save()
@@ -49,7 +40,7 @@ it.each`
   ${'dob'}
 `('missing field', async ({ field }) => {
   expect.assertions(1)
-  const familyMember = mockFamilyMember()
+  const familyMember = mocks.mockFamilyMemberData()
   familyMember[field] = ''
   const newFamilyMember = new FamilyMember(familyMember)
 
@@ -62,7 +53,7 @@ it.each`
 
 it('invalid gender', async () => {
   expect.assertions(1)
-  const familyMember = mockFamilyMember()
+  const familyMember = mocks.mockFamilyMemberData()
   familyMember.gender = 'M'
   const newFamilyMember = new FamilyMember(familyMember)
 
@@ -77,7 +68,7 @@ it('invalid gender', async () => {
 
 it('invalid occupation type', async () => {
   expect.assertions(1)
-  const familyMember = mockFamilyMember()
+  const familyMember = mocks.mockFamilyMemberData()
   familyMember.occupationType = 'notexists'
   const newFamilyMember = new FamilyMember(familyMember)
 
@@ -92,7 +83,7 @@ it('invalid occupation type', async () => {
 
 it('invalid annualIncome', async () => {
   expect.assertions(1)
-  const familyMember = mockFamilyMember()
+  const familyMember = mocks.mockFamilyMemberData()
   familyMember.annualIncome = -1
   const newFamilyMember = new FamilyMember(familyMember)
 

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const TestDb = require('../test/db')
+const mocks = require('../test/mocks')
 const householdService = require('./household-service')
 const FamilyMember = require('../models/family-member-model')
 const Household = require('../models/household-model')
@@ -19,15 +20,7 @@ afterAll(async () => {
 })
 
 const addFamilyMember = async () => {
-  const newFamilyMember = new FamilyMember({
-    name: 'Dex',
-    gender: 'Male',
-    maritalStatus: 'Single',
-    spouse: '',
-    occupationType: 'Employed',
-    annualIncome: 1,
-    dob: '1990-01-01'
-  })
+  const newFamilyMember = new FamilyMember(mocks.mockFamilyMemberData())
   return newFamilyMember.save()
 }
 
