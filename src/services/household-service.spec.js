@@ -31,6 +31,17 @@ const addFamilyMember = async () => {
   return newFamilyMember.save()
 }
 
+const setupHouseholds = async () => {
+  await Household.insertMany([
+    { housingType: 'HDB' },
+    { housingType: 'Condominium' },
+    { housingType: 'HDB' },
+    { housingType: 'Landed' },
+    { housingType: 'Condominium' },
+    { housingType: 'HDB' }
+  ])
+}
+
 describe('add household', () => {
   it('valid', async () => {
     const housingType = 'HDB'
@@ -111,14 +122,7 @@ describe('list households', () => {
 
 describe('query households', () => {
   beforeEach(async () => {
-    await Household.insertMany([
-      { housingType: 'HDB' },
-      { housingType: 'Condominium' },
-      { housingType: 'HDB' },
-      { housingType: 'Landed' },
-      { housingType: 'Condominium' },
-      { housingType: 'HDB' }
-    ])
+    await setupHouseholds()
   })
   it('no query returns all household ids', async () => {
     const householdIds = await householdService.queryHouseholds({})
@@ -148,14 +152,7 @@ describe('query households', () => {
 
 describe('get households by ids', () => {
   beforeEach(async () => {
-    await Household.insertMany([
-      { housingType: 'HDB' },
-      { housingType: 'Condominium' },
-      { housingType: 'HDB' },
-      { housingType: 'Landed' },
-      { housingType: 'Condominium' },
-      { housingType: 'HDB' }
-    ])
+    await setupHouseholds()
   })
   it('valid ids', async () => {
     const householdIds = await householdService.queryHouseholds({ housingType: 'HDB' })
