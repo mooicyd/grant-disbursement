@@ -52,6 +52,12 @@ describe('query family', () => {
     await FamilyMember(familyMember).save()
   })
 
+  it('no query', async () => {
+    const results = await familyMemberService.queryFamily({}, [household.id])
+
+    expect(results.length).toEqual(1)
+  })
+
   it('total income less than query', async () => {
     const results = await familyMemberService.queryFamily(
       { totalIncome: familyMember.annualIncome + 1 },
