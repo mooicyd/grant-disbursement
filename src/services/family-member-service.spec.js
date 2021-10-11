@@ -105,4 +105,25 @@ describe('query family', () => {
 
     expect(results.length).toEqual(0)
   })
+
+  it('age is smaller than older than', async () => {
+    const age = new Date().getFullYear() - new Date(familyMember.dob).getFullYear()
+    const results = await familyMemberService.queryFamily({ olderThan: age + 1 }, [household.id])
+
+    expect(results.length).toEqual(0)
+  })
+
+  it('age match older than', async () => {
+    const age = new Date().getFullYear() - new Date(familyMember.dob).getFullYear()
+    const results = await familyMemberService.queryFamily({ olderThan: age }, [household.id])
+
+    expect(results.length).toEqual(0)
+  })
+
+  it('age is larger than older than', async () => {
+    const age = new Date().getFullYear() - new Date(familyMember.dob).getFullYear()
+    const results = await familyMemberService.queryFamily({ olderThan: age - 1 }, [household.id])
+
+    expect(results.length).toEqual(1)
+  })
 })

@@ -16,9 +16,21 @@ exports.queryFamily = async (query, householdIds) => {
     if (utility.isNumberString(query.youngerThan)) {
       const date = new Date()
       date.setFullYear(date.getFullYear() - query.youngerThan)
+      date.setUTCHours(0, 0, 0, 0)
       promises.push(
         FamilyMember.aggregate()
           .match({ householdId, dob: { $gt: date } })
+          .exec()
+      )
+    }
+
+    if (utility.isNumberString(query.olderThan)) {
+      const date = new Date()
+      date.setFullYear(date.getFullYear() - query.olderThan)
+      date.setUTCHours(0, 0, 0, 0)
+      promises.push(
+        FamilyMember.aggregate()
+          .match({ householdId, dob: { $lt: date } })
           .exec()
       )
     }
