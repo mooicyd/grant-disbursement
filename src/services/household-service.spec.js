@@ -51,13 +51,9 @@ describe('add household', () => {
 })
 
 describe('find household', () => {
-  let newHousehold
-
-  beforeEach(async () => {
-    newHousehold = await householdService.addHousehold({ housingType: 'HDB' })
-  })
-
   it('household exists', async () => {
+    const newHousehold = await householdService.addHousehold({ housingType: 'HDB' })
+
     const result = await householdService.getHouseholdById(newHousehold.id)
 
     expect(result.toJSON()).toEqual(newHousehold.toJSON())
@@ -71,15 +67,10 @@ describe('find household', () => {
 })
 
 describe('update household', () => {
-  let household
-  let newFamilyMember
-
-  beforeEach(async () => {
-    household = await householdService.addHousehold({ housingType: 'HDB' })
-    newFamilyMember = await addFamilyMember()
-  })
-
   it('insert family member id to familyMembers', async () => {
+    const household = await householdService.addHousehold({ housingType: 'HDB' })
+    const newFamilyMember = await addFamilyMember()
+
     const result = await householdService.updateHousehold(household.id, newFamilyMember.id)
 
     expect(result.familyMembers[0].toString()).toEqual(newFamilyMember.id)
