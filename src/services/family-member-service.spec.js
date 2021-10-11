@@ -6,7 +6,7 @@ beforeAll(async () => {
   await db.setup()
 })
 
-afterEach(async () => {
+beforeEach(async () => {
   await db.reset()
 })
 
