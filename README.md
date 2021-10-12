@@ -12,7 +12,7 @@
 2. Run `npm install -g npm@7.7.4` in terminal to upgrade to npm v7.7.4
 3. Install [MongoDB Community Edition](https://docs.mongodb.com/manual/administration/install-community/)
 
-## Assumptions/Interpretations
+## Assumptions & Interpretations
 
 1. Adding a household successfully will return the newly added household with its current family members
 1. Adding a family member to a non-existing household should return status 500 with error message
@@ -32,7 +32,9 @@ sudo xcode-select --install
 
 2. Re-run `brew install mongodb-community`
 
-## Future/Next Steps
+## Future Steps
 
-1. To Dockerize database
+1. Improve response format
+1. Implement bonus endpoints
+1. To Dockerize app & database
 1. Improve error handling
