@@ -16,5 +16,7 @@ module.exports = function handler(app, opts, done) {
   app.post('/households', grantsController.addHousehold)
   app.post('/households/:id/members', routeOpts, grantsController.addFamilyMemberToHousehold)
 
+  app.delete('/households/:id', grantsController.deleteHousehold)
+
   done()
 }
