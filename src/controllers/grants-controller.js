@@ -24,3 +24,9 @@ exports.searchHouseholds = async request => {
 
   return householdService.getHouseholdsByIds(householdIds)
 }
+
+exports.deleteHousehold = async request => {
+  if (!request.params.id) {
+    throw Error('Household ID must be specified')
+  }
+}

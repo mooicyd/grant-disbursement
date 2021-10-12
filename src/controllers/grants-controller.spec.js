@@ -79,3 +79,14 @@ it('list households', async () => {
   const households = await grantsController.listHouseholds()
   expect(households).toBeInstanceOf(Array)
 })
+
+describe('delete household', () => {
+  it('missing id', async () => {
+    expect.assertions(1)
+    try {
+      await grantsController.deleteHousehold({ params: {} })
+    } catch (e) {
+      expect(e.message).toEqual('Household ID must be specified')
+    }
+  })
+})
