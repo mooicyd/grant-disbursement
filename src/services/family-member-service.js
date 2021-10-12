@@ -39,6 +39,21 @@ exports.queryFamily = async (query, householdIds) => {
       )
     }
 
+    if (query.hasCouple === 'true') {
+      promises.push(
+        FamilyMember.aggregate()
+          .match({ householdId })
+          .lookup({
+            from: 'familymembers',
+            localField: 'spouse',
+            foreignField: 'name',
+            as: 'spouseName'
+          })
+          .unwind('$spouseName')
+          .exec()
+      )
+    }
+
     const results = await Promise.all(promises)
 
     if (results.some(result => !result.length)) {

@@ -1,5 +1,5 @@
 const TestDb = require('../test/db')
-const mocks = require('../test/mocks')
+const { mockFamilyMemberData, mockCoupleData } = require('../test/mocks')
 const familyMemberService = require('./family-member-service')
 const Household = require('../models/household-model')
 const FamilyMember = require('../models/family-member-model')
@@ -22,7 +22,7 @@ describe('add family member', () => {
   it('valid', async () => {
     const household = await new Household({ housingType: 'HDB' }).save()
     const newFamilyMember = await familyMemberService.addFamilyMember(
-      mocks.mockFamilyMemberData(),
+      mockFamilyMemberData(),
       household.id
     )
 
@@ -31,7 +31,7 @@ describe('add family member', () => {
 
   it('invalid', async () => {
     expect.assertions(1)
-    const familyMember = mocks.mockFamilyMemberData()
+    const familyMember = mockFamilyMemberData()
     familyMember.gender = ''
 
     try {
@@ -49,7 +49,7 @@ describe('query family', () => {
   beforeEach(async () => {
     household = new Household({ housingType: 'HDB' }).save()
 
-    familyMember = mocks.mockFamilyMemberData()
+    familyMember = mockFamilyMemberData()
     familyMember.householdId = household.id
     await FamilyMember(familyMember).save()
 
@@ -121,6 +121,20 @@ describe('query family', () => {
 
   it('age is larger than older than', async () => {
     const results = await familyMemberService.queryFamily({ olderThan: age - 1 }, [household.id])
+
+    expect(results.length).toEqual(1)
+  })
+
+  it('has no couple', async () => {
+    const results = await familyMemberService.queryFamily({ hasCouple: 'true' }, [household.id])
+
+    expect(results.length).toEqual(0)
+  })
+
+  it('has couple', async () => {
+    const couple = mockCoupleData(household.id)
+    await FamilyMember.insertMany(couple)
+    const results = await familyMemberService.queryFamily({ hasCouple: 'true' }, [household.id])
 
     expect(results.length).toEqual(1)
   })

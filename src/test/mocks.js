@@ -1,4 +1,6 @@
-const mockFamilyMemberData = () => {
+const getDateString = date => date.toISOString().split('T')[0]
+
+exports.mockFamilyMemberData = () => {
   const date = new Date()
   date.setFullYear(date.getFullYear() - 20)
   return {
@@ -8,8 +10,38 @@ const mockFamilyMemberData = () => {
     spouse: '',
     occupationType: 'Employed',
     annualIncome: 10000,
-    dob: date.toISOString().split('T')[0]
+    dob: getDateString(date)
   }
 }
 
-module.exports = { mockFamilyMemberData }
+exports.mockCoupleData = householdId => {
+  const date = new Date()
+  date.setFullYear(date.getFullYear() - 20)
+  const names = {
+    husband: 'Alex',
+    wife: 'Alexa'
+  }
+
+  return [
+    {
+      name: names.husband,
+      gender: 'Male',
+      maritalStatus: 'Married',
+      spouse: names.wife,
+      occupationType: 'Employed',
+      annualIncome: 10000,
+      dob: getDateString(date),
+      householdId
+    },
+    {
+      name: names.wife,
+      gender: 'Female',
+      maritalStatus: 'Married',
+      spouse: names.husband,
+      occupationType: 'Employed',
+      annualIncome: 10000,
+      dob: getDateString(date),
+      householdId
+    }
+  ]
+}
