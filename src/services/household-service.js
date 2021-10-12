@@ -6,7 +6,8 @@ exports.addHousehold = async householdInfo => {
   return newHousehold.save()
 }
 
-exports.getHouseholdById = async householdId => Household.findById(householdId).exec()
+exports.getHouseholdById = async householdId =>
+  Household.findById(householdId).populate('familyMembers').exec()
 
 exports.updateHousehold = async (householdId, familyMemberId) => {
   await Household.findByIdAndUpdate(householdId, { $push: { familyMembers: familyMemberId } })

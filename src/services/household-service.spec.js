@@ -58,7 +58,7 @@ describe('add household', () => {
   })
 })
 
-describe('find household', () => {
+describe('get household by id', () => {
   it('household exists', async () => {
     const newHousehold = await householdService.addHousehold({ housingType: 'HDB' })
 
@@ -72,6 +72,16 @@ describe('find household', () => {
 
     expect(result).toBeFalsy()
   })
+
+  it('display family member', async () => {
+    const household = await householdService.addHousehold({ housingType: 'HDB' })
+    const newFamilyMember = await addFamilyMember()
+    await householdService.updateHousehold(household.id, newFamilyMember.id)
+
+    const result = await householdService.getHouseholdById(household.id)
+
+    expect(result.familyMembers[0].toJSON()).toEqual(newFamilyMember.toJSON())
+  })
 })
 
 describe('update household', () => {
@@ -79,7 +89,9 @@ describe('update household', () => {
     const household = await householdService.addHousehold({ housingType: 'HDB' })
     const newFamilyMember = await addFamilyMember()
 
-    const result = await householdService.updateHousehold(household.id, newFamilyMember.id)
+    await householdService.updateHousehold(household.id, newFamilyMember.id)
+
+    const result = await Household.findById(household.id)
 
     expect(result.familyMembers[0].toString()).toEqual(newFamilyMember.id)
   })
