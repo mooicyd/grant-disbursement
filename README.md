@@ -34,5 +34,4 @@ sudo xcode-select --install
 
 ## Future/Next Steps
 
-1. To create seed for database
 1. To Dockerize database
