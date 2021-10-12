@@ -1,5 +1,5 @@
 const TestDb = require('../test/db')
-const mocks = require('../test/mocks')
+const { mockFamilyMemberData, mockObjectIdString } = require('../test/mocks')
 const grantsController = require('./grants-controller')
 
 const testDb = new TestDb()
@@ -17,7 +17,6 @@ afterAll(async () => {
 })
 
 const mockRequest = (body, id) => ({ params: { id }, body })
-const fakeObjectId = '6162368212490dc38a9fe196'
 
 describe('add household', () => {
   it('valid', async () => {
@@ -43,7 +42,7 @@ describe('get household by id', () => {
 
   it('household not found', async () => {
     const household = await grantsController.getHouseholdById(
-      mockRequest(expect.anything(), fakeObjectId)
+      mockRequest(expect.anything(), mockObjectIdString)
     )
 
     expect(household).toBeFalsy()
@@ -58,7 +57,7 @@ describe('add family member to household', () => {
 
   it('save reference id', async () => {
     const result = await grantsController.addFamilyMemberToHousehold(
-      mockRequest(mocks.mockFamilyMemberData(), household.id)
+      mockRequest(mockFamilyMemberData(), household.id)
     )
 
     expect(result.householdId.toString()).toEqual(household.id)
@@ -68,7 +67,7 @@ describe('add family member to household', () => {
     expect.assertions(1)
     try {
       await grantsController.addFamilyMemberToHousehold(
-        mockRequest(expect.anything(), fakeObjectId)
+        mockRequest(expect.anything(), mockObjectIdString)
       )
     } catch (e) {
       expect(e.message).toBe('Household not found')
