@@ -19,13 +19,15 @@ afterAll(async () => {
   await testDb.teardown()
 })
 
+const mockObjectId = () => mongoose.Types.ObjectId('6162368212490dc38a9fe196')
+
 const addFamilyMember = async () => {
   const newFamilyMember = new FamilyMember(mocks.mockFamilyMemberData())
   return newFamilyMember.save()
 }
 
-const setupHouseholds = async () => {
-  await Household.insertMany([
+const setupHouseholds = async () =>
+  Household.insertMany([
     { housingType: 'HDB' },
     { housingType: 'Condominium' },
     { housingType: 'HDB' },
@@ -33,7 +35,6 @@ const setupHouseholds = async () => {
     { housingType: 'Condominium' },
     { housingType: 'HDB' }
   ])
-}
 
 describe('add household', () => {
   it('valid', async () => {
@@ -172,10 +173,27 @@ describe('get households by ids', () => {
 
   it('ignore invalid ids', async () => {
     const householdIds = await householdService.queryHouseholds({ housingType: 'HDB' })
-    householdIds.push(mongoose.Types.ObjectId('6162368212490dc38a9fe196'))
+    householdIds.push(mockObjectId())
 
     const result = await householdService.getHouseholdsByIds(householdIds)
 
     expect(result.length).toEqual(3)
+  })
+})
+
+describe('delete household by id', () => {
+  it('delete existing household', async () => {
+    const households = await setupHouseholds()
+
+    const deletedHousehold = await householdService.deleteHouseholdById(households[0].id)
+
+    expect(deletedHousehold.id).toEqual(households[0].id)
+  })
+  it('delete non-existing household', async () => {
+    await setupHouseholds()
+
+    const deletedHousehold = await householdService.deleteHouseholdById(mockObjectId())
+
+    expect(deletedHousehold).toBeFalsy()
   })
 })

@@ -41,3 +41,5 @@ exports.getHouseholdsByIds = async householdIds =>
       as: 'familyMembers'
     })
     .exec()
+
+exports.deleteHouseholdById = async householdId => Household.findByIdAndDelete(householdId)
