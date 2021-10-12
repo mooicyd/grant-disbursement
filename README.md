@@ -19,6 +19,7 @@
    GRANTS_MONGO_URI=GRANTS_MONGO_URI=mongodb://localhost:27017/grants_dev
    ```
 
+1. Run `npm i` to install all packages
 1. Run `npm run seed` to add some data into local MongoDB
 1. Run `npm start` to start the application
 
