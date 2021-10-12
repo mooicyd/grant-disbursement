@@ -46,6 +46,7 @@ sudo xcode-select --install
 ## Future Steps
 
 1. More refactoring
+1. API docs
 1. Improve response format
 1. Improve queries
 1. Improve error handling
