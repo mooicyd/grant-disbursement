@@ -29,4 +29,11 @@ exports.deleteHousehold = async request => {
   if (!request.params.id) {
     throw Error('Household ID must be specified')
   }
+
+  const deletedHousehold = await householdService.deleteHouseholdById(request.params.id)
+  if (deletedHousehold) {
+    await familyMemberService.deleteFamilyMembersByHouseholdId(deletedHousehold.id)
+  }
+
+  return 'Household deleted'
 }

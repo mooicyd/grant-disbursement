@@ -31,8 +31,8 @@ describe('add household', () => {
 describe('get household by id', () => {
   it('valid', async () => {
     const housingType = 'HDB'
-
     const newHousehold = await grantsController.addHousehold(mockRequest({ housingType }))
+
     const household = await grantsController.getHouseholdById(
       mockRequest(expect.anything(), newHousehold.id)
     )
@@ -88,5 +88,21 @@ describe('delete household', () => {
     } catch (e) {
       expect(e.message).toEqual('Household ID must be specified')
     }
+  })
+
+  it('delete existing household', async () => {
+    const household = await grantsController.addHousehold(mockRequest({ housingType: 'HDB' }))
+
+    const result = await grantsController.deleteHousehold(
+      mockRequest(expect.anything(), household.id)
+    )
+
+    expect(result).toEqual('Household deleted')
+  })
+
+  it('already deleted household', async () => {
+    const result = await grantsController.deleteHousehold({ params: { id: mockObjectIdString } })
+
+    expect(result).toEqual('Household deleted')
   })
 })
