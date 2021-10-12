@@ -2,7 +2,9 @@ const { Types } = require('mongoose')
 
 const getDateString = date => date.toISOString().split('T')[0]
 
-exports.mockObjectId = () => Types.ObjectId('6162368212490dc38a9fe196')
+exports.mockObjectIdString = '6162368212490dc38a9fe196'
+
+exports.mockObjectId = () => Types.ObjectId(this.mockObjectIdString)
 
 exports.mockFamilyMemberData = () => {
   const date = new Date()
