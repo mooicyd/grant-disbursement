@@ -12,7 +12,7 @@
 1. Run `npm i -g npm@7.7.4` in terminal to upgrade to npm v7.7.4
 1. Install [MongoDB Community Edition](https://docs.mongodb.com/manual/administration/install-community/)
 1. Run `brew services start mongodb-community` to start the local mongo service
-1. Create .env file in root folder, and specify `APP_PORT` and `GRANTS_MONGO_URI`, example below:
+1. Clone the repository and create .env file in project root folder, and specify `APP_PORT` and `GRANTS_MONGO_URI`, example below:
 
    ```
    APP_PORT=3000
