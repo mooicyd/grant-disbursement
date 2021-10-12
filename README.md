@@ -35,3 +35,4 @@ sudo xcode-select --install
 ## Future/Next Steps
 
 1. To Dockerize database
+1. Improve error handling
