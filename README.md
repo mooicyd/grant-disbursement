@@ -26,6 +26,7 @@
 1. Adding a family member to a non-existing household should return status 500 with error message
 1. Adding a family member successfully will return the added family member as response
 1. Responses to listing or searching households will return matching households with its current family members
+1. If hasCouple only accepts value true, otherwise it ignores the query parameter
 
 ## Troubleshooting
 
