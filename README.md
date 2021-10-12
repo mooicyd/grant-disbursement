@@ -22,6 +22,7 @@
 1. Run `npm i` to install all packages
 1. Run `npm run seed` to add some data into local MongoDB
 1. Run `npm start` to start the application
+1. You may now use applications such as [Postman](https://www.postman.com/downloads/) to use the API
 
 ## Assumptions & Interpretations
 
