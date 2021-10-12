@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "serve": "node src/index.js",
+    "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "test:dev": "jest --watch --runInBand",
     "test:coverage": "jest --collectCoverage",
-    "seed": " node src/seeds/index.js"
+    "seed": "node src/seeds/index.js"
   },
   "repository": {
     "type": "git",
