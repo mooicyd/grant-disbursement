@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const TestDb = require('../test/db')
-const mocks = require('../test/mocks')
+const { mockFamilyMemberData, mockObjectId } = require('../test/mocks')
 const householdService = require('./household-service')
 const FamilyMember = require('../models/family-member-model')
 const Household = require('../models/household-model')
@@ -19,10 +19,8 @@ afterAll(async () => {
   await testDb.teardown()
 })
 
-const mockObjectId = () => mongoose.Types.ObjectId('6162368212490dc38a9fe196')
-
 const addFamilyMember = async () => {
-  const newFamilyMember = new FamilyMember(mocks.mockFamilyMemberData())
+  const newFamilyMember = new FamilyMember(mockFamilyMemberData())
   return newFamilyMember.save()
 }
 
