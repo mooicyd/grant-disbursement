@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const TestDb = require('../test/db')
-const { mockFamilyMemberData, mockObjectId } = require('../test/mocks')
+const { mockFamilyMemberData, mockObjectId, mockObjectIdString } = require('../test/mocks')
 const householdService = require('./household-service')
 const FamilyMember = require('../models/family-member-model')
 const Household = require('../models/household-model')
@@ -67,7 +67,7 @@ describe('get household by id', () => {
   })
 
   it('household not exists', async () => {
-    const result = await householdService.getHouseholdById('6162368212490dc38a9fe196')
+    const result = await householdService.getHouseholdById(mockObjectIdString)
 
     expect(result).toBeFalsy()
   })
