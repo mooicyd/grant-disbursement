@@ -45,11 +45,15 @@ describe('add family member', () => {
 describe('query family', () => {
   let household
   let familyMember
+  let age
   beforeEach(async () => {
     household = new Household({ housingType: 'HDB' }).save()
+
     familyMember = mocks.mockFamilyMemberData()
     familyMember.householdId = household.id
     await FamilyMember(familyMember).save()
+
+    age = new Date().getFullYear() - new Date(familyMember.dob).getFullYear()
   })
 
   it('no query', async () => {
@@ -86,42 +90,36 @@ describe('query family', () => {
   })
 
   it('age is smaller than younger than', async () => {
-    const age = new Date().getFullYear() - new Date(familyMember.dob).getFullYear()
     const results = await familyMemberService.queryFamily({ youngerThan: age + 1 }, [household.id])
 
     expect(results.length).toEqual(1)
   })
 
   it('age match younger than', async () => {
-    const age = new Date().getFullYear() - new Date(familyMember.dob).getFullYear()
     const results = await familyMemberService.queryFamily({ youngerThan: age }, [household.id])
 
     expect(results.length).toEqual(0)
   })
 
   it('age is larger than younger than', async () => {
-    const age = new Date().getFullYear() - new Date(familyMember.dob).getFullYear()
     const results = await familyMemberService.queryFamily({ youngerThan: age - 1 }, [household.id])
 
     expect(results.length).toEqual(0)
   })
 
   it('age is smaller than older than', async () => {
-    const age = new Date().getFullYear() - new Date(familyMember.dob).getFullYear()
     const results = await familyMemberService.queryFamily({ olderThan: age + 1 }, [household.id])
 
     expect(results.length).toEqual(0)
   })
 
   it('age match older than', async () => {
-    const age = new Date().getFullYear() - new Date(familyMember.dob).getFullYear()
     const results = await familyMemberService.queryFamily({ olderThan: age }, [household.id])
 
     expect(results.length).toEqual(0)
   })
 
   it('age is larger than older than', async () => {
-    const age = new Date().getFullYear() - new Date(familyMember.dob).getFullYear()
     const results = await familyMemberService.queryFamily({ olderThan: age - 1 }, [household.id])
 
     expect(results.length).toEqual(1)
