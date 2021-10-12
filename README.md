@@ -21,12 +21,16 @@
 
 ## Troubleshooting
 
-### Error: Your Command Line Tools are too outdated. (OSX)
+### Solution for Error: Your Command Line Tools are too outdated. (OSX)
+
+1. Run the below commands
 
 ```sh
 sudo rm -rf /Library/Developer/CommandLineTools
 sudo xcode-select --install
 ```
+
+2. Re-run `brew install mongodb-community`
 
 ## Future/Next Steps
 
