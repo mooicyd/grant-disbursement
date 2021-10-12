@@ -67,3 +67,6 @@ exports.queryFamily = async (query, householdIds) => {
 
   return Array.from(householdSet)
 }
+
+exports.deleteFamilyMembersByHouseholdId = async householdId =>
+  FamilyMember.deleteMany({ householdId })

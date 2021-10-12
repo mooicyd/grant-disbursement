@@ -1,3 +1,4 @@
+const mongoose = require('mongoose')
 const TestDb = require('../test/db')
 const { mockFamilyMemberData, mockCoupleData } = require('../test/mocks')
 const familyMemberService = require('./family-member-service')
@@ -137,5 +138,17 @@ describe('query family', () => {
     const results = await familyMemberService.queryFamily({ hasCouple: 'true' }, [household.id])
 
     expect(results.length).toEqual(1)
+  })
+})
+
+describe('delete family members by household id', () => {
+  it('delete family members with matching household id', async () => {
+    const mockObjectId = mongoose.Types.ObjectId('6162368212490dc38a9fe196')
+    const couple = mockCoupleData(mockObjectId)
+    await FamilyMember.insertMany(couple)
+
+    const results = await familyMemberService.deleteFamilyMembersByHouseholdId(mockObjectId)
+
+    expect(results.deletedCount).toEqual(couple.length)
   })
 })
