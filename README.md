@@ -33,7 +33,7 @@
 
 ## Troubleshooting
 
-### Solution for Error: Your Command Line Tools are too outdated. (OSX)
+### Solution for Error: Your Command Line Tools are too outdated. (OSX Big Sur)
 
 1. Run the below commands
 
