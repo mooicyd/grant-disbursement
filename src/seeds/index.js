@@ -1,10 +1,11 @@
 /* eslint-disable import/no-extraneous-dependencies */
+require('dotenv/config')
 const { Seeder } = require('mongo-seeding')
 const path = require('path')
 
 const config = {
   dropDatabase: true,
-  database: 'mongodb://localhost:27017/grants'
+  database: process.env.GRANTS_MONGO_URI
 }
 
 const seeder = new Seeder(config)

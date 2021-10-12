@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv/config')
 const server = require('./app')({ logger: true })
 
 const start = async () => {

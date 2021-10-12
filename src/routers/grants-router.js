@@ -7,7 +7,7 @@ module.exports = function handler(app, opts, done) {
       reply.send({ message: error.message })
     }
   }
-  mongoose.connect('mongodb://localhost:27017/grants')
+  mongoose.connect(process.env.GRANTS_MONGO_URI)
 
   app.get('/households', grantsController.listHouseholds)
   app.get('/households/:id', grantsController.getHouseholdById)
