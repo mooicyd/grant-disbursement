@@ -6,7 +6,7 @@ module.exports = function handler(app, opts, done) {
 
   app.get('/households', grantsController.listHouseholds)
   app.get('/households/:id', grantsController.getHouseholdById)
-  app.get('/search', grantsController.searchHouseholds)
+  app.get('/households/search', grantsController.searchHouseholds)
 
   app.post('/households', grantsController.addHousehold)
   app.post('/households/:id/members', grantsController.addFamilyMemberToHousehold)
