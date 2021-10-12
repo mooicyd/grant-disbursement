@@ -9,7 +9,7 @@
 ## Setup
 
 1. Install [NodeJS v14.16.0](https://nodejs.org/ko/blog/release/v14.16.0/)
-1. Run `npm install -g npm@7.7.4` in terminal to upgrade to npm v7.7.4
+1. Run `npm i -g npm@7.7.4` in terminal to upgrade to npm v7.7.4
 1. Install [MongoDB Community Edition](https://docs.mongodb.com/manual/administration/install-community/)
 1. Run `brew services start mongodb-community` to start the local mongo service
 1. Create .env file in root folder, and specify `APP_PORT` and `GRANTS_MONGO_URI`, example below:
